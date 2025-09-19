@@ -32,8 +32,15 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
+    val sum = try {
+        ZigLib.add(2, 3)
+    } catch (t: Throwable) {
+        // If the native library is not present at runtime, show a helpful message instead of crashing.
+        null
+    }
+    val msg = if (sum != null) "Zig add(2,3) = $sum" else "Zig native lib not found. Build and place libzigdemo.so in jniLibs."
     Text(
-        text = "Hello $name!",
+        text = "Hello $name!\n$msg",
         modifier = modifier
     )
 }
